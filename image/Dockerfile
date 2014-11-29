@@ -4,8 +4,6 @@ MAINTAINER Michal Mocnal <michal@narra.eu>
 # Set correct environment variables.
 ENV HOME /root
 ENV RAILS_ENV production
-ENV NARRA_REDIS_PORT 6379
-ENV NARRA_MONGOID_PORT 27017
 
 # Set narra build env
 RUN mkdir /build/narra

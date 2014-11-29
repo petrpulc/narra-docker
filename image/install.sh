@@ -11,6 +11,8 @@ cp /build/narra/narra.sh /etc/my_init.d/narra.sh
 if [[ "$master" = 1 ]]; then
 	# Enable the Redis service
 	rm -f /etc/service/redis/down;
+	awk '/bind/{print "bind 0.0.0.0";next}1' /etc/redis/redis.conf > /tmp/redis.conf
+	cat /tmp/redis.conf > /etc/redis/redis.conf 
 	# Enable the Mongodb service.
 	mkdir /etc/service/mongo;
 	cp /build/narra/runit/mongodb.sh /etc/service/mongo/run;
@@ -18,10 +20,13 @@ if [[ "$master" = 1 ]]; then
 	# Nginx initialization
 	rm -f /etc/service/nginx/down;
 	rm /etc/nginx/sites-enabled/default;
-	cp /build/narra/config/narra.conf /etc/nginx/sites-enabled/narra.conf;
+	cp /build/narra/config/api-narra.conf /etc/nginx/sites-enabled/api-narra.conf;
+	cp /build/narra/config/env-narra.conf /etc/nginx/main.d/narra.conf
 fi
 
 if [[ "$worker" = 1 ]]; then
+	# Build ffmpeg
+	/build/narra/ffmpeg.sh
 	# Enable the NARRA worker service.
 	mkdir /etc/service/narra-worker;
 	cp /build/narra/runit/narra-worker.sh /etc/service/narra-worker/run;

@@ -6,4 +6,5 @@
 # If you omit that part, the command will be run as root.
 
 # Read more here: https://github.com/phusion/baseimage-docker#adding-additional-daemons
-exec /sbin/setuser app /usr/bin/bundle exec sidekiq
+cd /home/app/narra
+exec /sbin/setuser app /usr/local/bin/bundle exec sidekiq
