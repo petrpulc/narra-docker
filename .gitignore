@@ -1,3 +1,4 @@
 .DS_Store
 master_image
 worker_image
+dump*

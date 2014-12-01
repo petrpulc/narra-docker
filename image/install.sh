@@ -9,14 +9,6 @@ mkdir -p /etc/my_init.d
 cp /build/narra/narra.sh /etc/my_init.d/narra.sh
 
 if [[ "$master" = 1 ]]; then
-	# Enable the Redis service
-	rm -f /etc/service/redis/down;
-	awk '/bind/{print "bind 0.0.0.0";next}1' /etc/redis/redis.conf > /tmp/redis.conf
-	cat /tmp/redis.conf > /etc/redis/redis.conf 
-	# Enable the Mongodb service.
-	mkdir /etc/service/mongo;
-	cp /build/narra/runit/mongodb.sh /etc/service/mongo/run;
-	chown root /etc/service/mongo/run;
 	# Nginx initialization
 	rm -f /etc/service/nginx/down;
 	rm /etc/nginx/sites-enabled/default;
