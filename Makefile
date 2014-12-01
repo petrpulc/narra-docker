@@ -1,5 +1,5 @@
 NAME = narra
-VERSION = 0.0.1
+VERSION = 0.0.3
 
 .PHONY: all build_all \
 	build_master build_worker \
