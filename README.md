@@ -18,6 +18,7 @@ A Docker base images for NARRA deployment
 
     docker run --name narra-mongo -d mongo
     docker run --name narra-redis -d redis
+
 <a name="environment"></a>
 ### Environment variables
 
