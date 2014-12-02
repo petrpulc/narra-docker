@@ -1,7 +1,7 @@
 [Unit]
 Description=NARRA instance worker node
-After=narra-master@*.service
-Requires=narra-master@*.service
+After=docker.service
+Requires=docker.service
 
 [Service]
 TimeoutStartSec=0
