@@ -1,6 +1,4 @@
-![narra logo](narra.png) 
-
+![narra logo](narra.png)
 A Docker base image for NARRA deployment
 ========================================
-
 ![docker logo](docker.png)
