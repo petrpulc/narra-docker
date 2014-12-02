@@ -1,0 +1,16 @@
+[Unit]
+Description=MongoDB server for NARRA instance
+After=docker.service
+Requires=docker.service
+
+[Service]
+TimeoutStartSec=0
+ExecStartPre=-/usr/bin/docker kill narra-mongo
+ExecStartPre=-/usr/bin/docker rm narra-mongo
+ExecStartPre=/usr/bin/docker pull mongo
+ExecStart=/usr/bin/docker run --name narra-mongo mongo
+ExecStop=/usr/bin/docker stop narra-mongo
+
+[X-Fleet]
+MachineMetadata=type=master
+Conflicts=narra-mongo*

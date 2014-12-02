@@ -1,0 +1,20 @@
+[Unit]
+Description=NARRA instance worker node
+After=narra-master@*.service
+Requires=narra-master@*.service
+
+[Service]
+TimeoutStartSec=0
+Environment="NARRA_INSTANCE_NAME="
+Environment="NARRA_AWS_ACCESS_KEY="
+Environment="NARRA_AWS_SECRET="
+Environment="NARRA_AWS_REGION="
+ExecStartPre=-/usr/bin/docker kill narra-worker-%i
+ExecStartPre=-/usr/bin/docker rm narra-worker-%i
+ExecStartPre=/usr/bin/docker pull narra/worker
+ExecStart=/usr/bin/docker run --name narra-worker-%i --rm --link narra-mongo:mongo --link narra-redis:redis -e NARRA_INSTANCE_NAME=${NARRA_INSTANCE_NAME} -e NARRA_AWS_ACCESS_KEY=${NARRA_AWS_ACCESS_KEY} -e NARRA_AWS_SECRET=${NARRA_AWS_SECRET} -e NARRA_AWS_REGION=${NARRA_AWS_REGION} narra/worker
+ExecStop=/usr/bin/docker stop narra-worker-%i
+
+[X-Fleet]
+MachineMetadata=type=worker
+Conflicts=narra-worker@*.service

@@ -55,88 +55,25 @@ To push environment variables into a container it is neccessary to run the conta
 <a name="deployment_coreos"></a>    
 ### Deployment into a CoreOS cluster
 
-<a name="deployment_coreos_mongo"></a> 
-#### `narra-mongo.service`
-```ini
-[Unit]
-Description=MongoDB server for NARRA instance
-After=docker.service
-Requires=docker.service
+Environment variables in files `narra-master@.service` and `narra-worker@.service` have to be properly setup before deployment.
 
-[Service]
-TimeoutStartSec=0
-ExecStartPre=-/usr/bin/docker kill narra-mongo
-ExecStartPre=-/usr/bin/docker rm narra-mongo
-ExecStartPre=/usr/bin/docker pull mongo
-ExecStart=/usr/bin/docker run --name narra-mongo mongo
-ExecStop=/usr/bin/docker stop narra-mongo
+#### Services submission
 
-[X-Fleet]
-MachineMetadata=type=master
-Conflicts=narra-mongo*
-```
+	fleetctl submit narra-mongo.service
+	fleetctl submit narra-redis.service
+	fleetctl submit narra-master@.service
+	fleetctl submit narra-worker@.service
 
-<a name="deployment_coreos_redis"></a> 
-#### `narra-redis.service`
-```ini
-[Unit]
-Description=Redis server for NARRA instance
-After=docker.service
-Requires=docker.service
+#### Services start
 
-[Service]
-TimeoutStartSec=0
-ExecStartPre=-/usr/bin/docker kill narra-redis
-ExecStartPre=-/usr/bin/docker rm narra-redis
-ExecStartPre=/usr/bin/docker pull redis
-ExecStart=/usr/bin/docker run --name narra-redis redis
-ExecStop=/usr/bin/docker stop narra-redis
+	fleetctl start narra-mongo
+	fleetctl start narra-redis
+	fleetctl start narra-master@1
+	fleetctl start narra-worker@1
+	fleetctl start narra-worker@2
 
-[X-Fleet]
-MachineMetadata=type=master
-Conflicts=narra-redis*
-```
+#### Check running services
 
-<a name="deployment_coreos_master"></a> 
-#### `narra-master@.service`
-```ini
-[Unit]
-Description=NARRA instance master node
-After=narra-mongo.service
-Requires=narra-mongo.service
-After=narra-redis.service
-Requires=narra-redis.service
+	fleetctl list-units
 
-[Service]
-TimeoutStartSec=0
-ExecStartPre=-/usr/bin/docker kill narra-master-%i
-ExecStartPre=-/usr/bin/docker rm narra-master-%i
-ExecStartPre=/usr/bin/docker pull narra/master
-ExecStart=/usr/bin/docker run --name narra-master-%i --rm -p 80:80 --link narra-mongo:mongo --link narra-redis:redis narra/master
-ExecStop=/usr/bin/docker stop narra-master-%i
-
-[X-Fleet]
-MachineMetadata=type=master
-Conflicts=narra-master@*.service
-```
-
-<a name="deployment_coreos_worker"></a> 
-#### `narra-worker@.service`
-```ini
-[Unit]
-Description=NARRA instance worker node
-After=narra-master@*.service
-Requires=narra-master@*.service
-
-[Service]
-TimeoutStartSec=0
-ExecStartPre=-/usr/bin/docker kill narra-worker-%i
-ExecStartPre=-/usr/bin/docker rm narra-worker-%i
-ExecStartPre=/usr/bin/docker pull narra/worker-%i
-ExecStart=/usr/bin/docker run --name narra-worker-%i --rm --link narra-mongo:mongo --link narra-redis:redis narra/worker
-ExecStop=/usr/bin/docker stop narra-worker-%i
-
-[X-Fleet]
-MachineMetadata=type=worker
-Conflicts=narra-worker@*.service
-```
+	
