@@ -16,8 +16,8 @@ A Docker base images for NARRA deployment
 <a name="mongodb_and_redis"></a>
 ### MongoDB and Redis
 
-    docker run -d --name mongodb -p 27017:27017 dockerfile/mongodb
-    docker run -d --name redis -p 6379:6379 dockerfile/redis
+    docker run --name narra-mongo -d mongo
+    docker run --name narra-redis -d redis
 
 <a name="environment"></a>
 ### Environment variables
@@ -25,14 +25,6 @@ A Docker base images for NARRA deployment
 #### `NARRA_INSTANCE_NAME`
 
 Site unique instance name. It should be unique for the same storage account.
-
-#### `NARRA_MONGOID`
-
-MongoDB server url in the format `hostname:port`
-
-#### `NARRA_REDIS`
-
-Redis server url in the format `hostname:port`
 
 #### `NARRA_AWS_ACCESS_KEY` optional
 
@@ -49,12 +41,12 @@ Amazon AWS region `eu-west-1`
 <a name="deployment"></a>
 ### Deployment
 
-    docker run -rm -p 80:80 narra/master
-    docker run -rm narra/worker
+    docker run -rm -p 80:80 --link narra-mongo:mongo --link narra-redis:redis -d narra/master
+    docker run -rm --link narra-mongo:mongo --link narra-redis:redis -d narra/worker
     
 To push environment variables into a container it is neccessary to run the container with `-e` option
 
-    docker run -rm -p 80:80 -e NARRA_INSTANCE_NAME=... -e NARRA_MONGOID=... narra/master
+    docker run -e NARRA_INSTANCE_NAME=... -e NARRA_AWS_ACCESS_KEY=...
     
 <a name="deployment_coreos"></a>    
 ### Deployment into a CoreOS cluster
