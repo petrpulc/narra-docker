@@ -98,7 +98,7 @@ Conflicts=narra-redis*
 ```
 
 <a name="deployment_coreos_master"></a> 
-#### `narra-master.service`
+#### `narra-master@.service`
 ```ini
 [Unit]
 Description=NARRA instance master node
@@ -121,12 +121,12 @@ Conflicts=narra-master@*.service
 ```
 
 <a name="deployment_coreos_worker"></a> 
-#### `narra-worker.service`
+#### `narra-worker@.service`
 ```ini
 [Unit]
 Description=NARRA instance worker node
-After=narra-master.service
-Requires=narra-master.service
+After=narra-master@*.service
+Requires=narra-master@*.service
 
 [Service]
 TimeoutStartSec=0
