@@ -117,7 +117,7 @@ ExecStop=/usr/bin/docker stop narra-master
 
 [X-Fleet]
 MachineMetadata=type=master
-Conflicts=narra-master*
+Conflicts=narra-master@*.service
 ```
 
 <a name="deployment_coreos_worker"></a> 
@@ -138,4 +138,5 @@ ExecStop=/usr/bin/docker stop narra-worker
 
 [X-Fleet]
 MachineMetadata=type=worker
+Conflicts=narra-worker@*.service
 ```
