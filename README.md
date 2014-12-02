@@ -109,11 +109,11 @@ Requires=narra-redis.service
 
 [Service]
 TimeoutStartSec=0
-ExecStartPre=-/usr/bin/docker kill narra-master
-ExecStartPre=-/usr/bin/docker rm narra-master
+ExecStartPre=-/usr/bin/docker kill narra-master-%i
+ExecStartPre=-/usr/bin/docker rm narra-master-%i
 ExecStartPre=/usr/bin/docker pull narra/master
-ExecStart=/usr/bin/docker run --name narra-master --rm -p 80:80 --link narra-mongo:mongo --link narra-redis:redis narra/master
-ExecStop=/usr/bin/docker stop narra-master
+ExecStart=/usr/bin/docker run --name narra-master-%i --rm -p 80:80 --link narra-mongo:mongo --link narra-redis:redis narra/master
+ExecStop=/usr/bin/docker stop narra-master-%i
 
 [X-Fleet]
 MachineMetadata=type=master
@@ -130,11 +130,11 @@ Requires=narra-master@*.service
 
 [Service]
 TimeoutStartSec=0
-ExecStartPre=-/usr/bin/docker kill narra-worker
-ExecStartPre=-/usr/bin/docker rm narra-worker
-ExecStartPre=/usr/bin/docker pull narra/worker
-ExecStart=/usr/bin/docker run --name narra-worker --rm --link narra-mongo:mongo --link narra-redis:redis narra/worker
-ExecStop=/usr/bin/docker stop narra-worker
+ExecStartPre=-/usr/bin/docker kill narra-worker-%i
+ExecStartPre=-/usr/bin/docker rm narra-worker-%i
+ExecStartPre=/usr/bin/docker pull narra/worker-%i
+ExecStart=/usr/bin/docker run --name narra-worker-%i --rm --link narra-mongo:mongo --link narra-redis:redis narra/worker
+ExecStop=/usr/bin/docker stop narra-worker-%i
 
 [X-Fleet]
 MachineMetadata=type=worker
