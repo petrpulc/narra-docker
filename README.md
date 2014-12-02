@@ -41,8 +41,8 @@ Amazon AWS region `eu-west-1`
 <a name="deployment"></a>
 ### Deployment
 
-    docker run -rm -p 80:80 --link narra-mongo:mongo --link narra-redis:redis -d narra/master
-    docker run -rm --link narra-mongo:mongo --link narra-redis:redis -d narra/worker
+    docker run -rm -p 80:80 --link narra-mongo:mongo --link narra-redis:redis narra/master
+    docker run -rm --link narra-mongo:mongo --link narra-redis:redis narra/worker
     
 To push environment variables into a container it is neccessary to run the container with `-e` option
 
