@@ -54,7 +54,7 @@ Amazon AWS region `eu-west-1`
     
 To push environment variables into a container it is neccessary to run the container with `-e` option
 
-    docker run -rm -p 80:80 -e NARRA_INSTANCE_NAME="..." -e NARRA_MONGOID="..." narra/master
+    docker run -rm -p 80:80 -e NARRA_INSTANCE_NAME=... -e NARRA_MONGOID=... narra/master
     
 <a name="deployment_coreos"></a>    
 ### Deployment into a CoreOS cluster
