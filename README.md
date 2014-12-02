@@ -18,5 +18,5 @@ A Docker base images for NARRA deployment
 
 ### Deployment
 
-    docker run -rm -p 80:80 narra/master
+    docker run -rm -p 80:80 -e NARRA_INSTANCE_NAME="..." -e NARRA_MONGOID="..." -e NARRA_REDIS="..." -e NARRA_AWS_ACCESS_KEY="..." -e NARRA_AWS_SECRET="..." -e NARRA_AWS_REGION="..." narra/master
     docker run -rm narra/worker
