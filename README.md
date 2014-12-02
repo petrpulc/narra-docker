@@ -10,11 +10,7 @@ A Docker base images for NARRA deployment
  * [Environment variables](#environment)
  * [Deployment](#deployment)
  * [Deployment into a CoreOS cluster](#deployment_coreos)
-    * [narra-mongo.service](#deployment_coreos_mongo)
-    * [narra-redis.service](#deployment_coreos_redis)
-    * [narra-master.service](#deployment_coreos_master)
-    * [narra-worker.service](#deployment_coreos_worker)
-
+ * 
 ---------------------------------------
 
 <a name="mongodb_and_redis"></a>
@@ -57,14 +53,14 @@ To push environment variables into a container it is neccessary to run the conta
 
 Environment variables in files `narra-master@.service` and `narra-worker@.service` have to be properly setup before deployment.
 
-#### Services submission
+#### Submit services
 
 	fleetctl submit narra-mongo.service
 	fleetctl submit narra-redis.service
 	fleetctl submit narra-master@.service
 	fleetctl submit narra-worker@.service
 
-#### Services start
+#### Start services
 
 	fleetctl start narra-mongo
 	fleetctl start narra-redis
@@ -75,5 +71,10 @@ Environment variables in files `narra-master@.service` and `narra-worker@.servic
 #### Check running services
 
 	fleetctl list-units
-
 	
+	UNIT			MACHINE				ACTIVE	SUB
+	narra-master@1.service	aaaf525d.../10.133.223.138	active	running
+	narra-mongo.service	aaaf525d.../10.133.223.138	active	running
+	narra-redis.service	aaaf525d.../10.133.223.138	active	running
+	narra-worker@1.service	9509fed1.../10.133.223.139	active	running
+	narra-worker@2.service	25d887a9.../10.133.223.136	active	running
