@@ -37,3 +37,9 @@ Amazon AWS region `eu-west-1`
 
     docker run -rm -p 80:80 narra/master
     docker run -rm narra/worker
+    
+Push ENV variables into a container it is neccessary to run the container with t `-e` option
+
+    docker run -e NARRA_INSTANCE_NAME="..." -e NARRA_MONGOID="..." ...
+    
+### Deployment into a CoreOS cluster
