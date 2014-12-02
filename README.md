@@ -10,6 +10,10 @@ A Docker base images for NARRA deployment
  * [Environment variables](#environment)
  * [Deployment](#deployment)
  * [Deployment into a CoreOS cluster](#deployment_coreos)
+    * [narra-mongo.service](#deployment_coreos_mongo)
+    * [narra-redis.service](#deployment_coreos_redis)
+    * [narra-master.service](#deployment_coreos_master)
+    * [narra-worker.service](#deployment_coreos_worker)
 
 ---------------------------------------
 
@@ -51,6 +55,7 @@ To push environment variables into a container it is neccessary to run the conta
 <a name="deployment_coreos"></a>    
 ### Deployment into a CoreOS cluster
 
+<a name="deployment_coreos_mongo"></a> 
 #### `narra-mongo.service`
 ```ini
 [Unit]
@@ -71,6 +76,7 @@ MachineMetadata=type=master
 Conflicts=narra-mongo*
 ```
 
+<a name="deployment_coreos_redis"></a> 
 #### `narra-redis.service`
 ```ini
 [Unit]
@@ -91,6 +97,7 @@ MachineMetadata=type=master
 Conflicts=narra-redis*
 ```
 
+<a name="deployment_coreos_master"></a> 
 #### `narra-master.service`
 ```ini
 [Unit]
@@ -113,6 +120,7 @@ MachineMetadata=type=master
 Conflicts=narra-master*
 ```
 
+<a name="deployment_coreos_worker"></a> 
 #### `narra-worker.service`
 ```ini
 [Unit]
