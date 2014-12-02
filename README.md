@@ -38,7 +38,7 @@ Amazon AWS region `eu-west-1`
     docker run -rm -p 80:80 narra/master
     docker run -rm narra/worker
     
-To push environment variables into a container it is neccessary to run the container with t `-e` option
+To push environment variables into a container it is neccessary to run the container with `-e` option
 
     docker run -rm -p 80:80 -e NARRA_INSTANCE_NAME="..." -e NARRA_MONGOID="..." narra/master
     
