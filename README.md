@@ -9,12 +9,29 @@ A Docker base images for NARRA deployment
 
 ### Environment variables
 
-    env NARRA_INSTANCE_NAME;
-    env NARRA_MONGOID;
-    env NARRA_REDIS;
-    env NARRA_AWS_ACCESS_KEY;
-    env NARRA_AWS_SECRET;
-    env NARRA_AWS_REGION;
+#### `NARRA_INSTANCE_NAME`
+
+Site unique instance name. It should be unique for the same storage account.
+
+#### `NARRA_MONGOID`
+
+MongoDB server url in the format `hostname:port`
+
+#### `NARRA_REDIS`
+
+Redis server url in the format `hostname:port`
+
+#### `NARRA_AWS_ACCESS_KEY` optional
+
+Amazon AWS Access Credentials
+
+#### `NARRA_AWS_SECRET` optional
+
+Amazon AWS Access Credentials
+
+#### `NARRA_AWS_REGION` optional
+
+Amazon AWS region `eu-west-1`
 
 ### Deployment
 
