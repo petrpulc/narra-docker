@@ -12,7 +12,7 @@ Environment="NARRA_AWS_REGION="
 ExecStartPre=-/usr/bin/docker kill narra-master-%i
 ExecStartPre=-/usr/bin/docker rm narra-master-%i
 ExecStartPre=/usr/bin/docker pull narra/master
-ExecStart=/usr/bin/docker run --name narra-master-%i --rm -p 80:80 -e MONGO_PORT_27017_TCP_ADDR=$(/usr/bin/etcdctl get /narra/mongo) -e REDIS_PORT_6379_TCP_ADDR=$(/usr/bin/etcdctl get /narra/redis) -e NARRA_INSTANCE_NAME=${NARRA_INSTANCE_NAME} -e NARRA_AWS_ACCESS_KEY=${NARRA_AWS_ACCESS_KEY} -e NARRA_AWS_SECRET=${NARRA_AWS_SECRET} -e NARRA_AWS_REGION=${NARRA_AWS_REGION} narra/master
+ExecStart=/bin/sh -c '/usr/bin/docker run --name narra-master-%i --rm -p 80:80 -e MONGO_PORT_27017_TCP_ADDR=$(/usr/bin/etcdctl get /narra/mongo) -e REDIS_PORT_6379_TCP_ADDR=$(/usr/bin/etcdctl get /narra/redis) -e NARRA_INSTANCE_NAME=${NARRA_INSTANCE_NAME} -e NARRA_AWS_ACCESS_KEY=${NARRA_AWS_ACCESS_KEY} -e NARRA_AWS_SECRET=${NARRA_AWS_SECRET} -e NARRA_AWS_REGION=${NARRA_AWS_REGION} narra/master'
 ExecStop=/usr/bin/docker stop narra-master-%i
 
 [X-Fleet]

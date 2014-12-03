@@ -12,7 +12,7 @@ ExecStartPre=/usr/bin/docker pull redis
 ExecStart=/usr/bin/docker run --name narra-redis -p ${COREOS_PRIVATE_IPV4}:6379:6379 redis
 ExecStartPost=/usr/bin/etcdctl set /narra/redis ${COREOS_PRIVATE_IPV4}
 ExecStop=/usr/bin/docker stop narra-redis
-ExecStartPost=/usr/bin/etcdctl rm /narra/redis
+ExecStopPost=/usr/bin/etcdctl rm /narra/redis
 
 [X-Fleet]
 MachineMetadata=type=database
