@@ -12,5 +12,5 @@ ExecStart=/usr/bin/docker run --name narra-mongo mongo
 ExecStop=/usr/bin/docker stop narra-mongo
 
 [X-Fleet]
-MachineMetadata=type=master
+MachineMetadata=type=database
 Conflicts=narra-mongo*

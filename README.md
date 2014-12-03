@@ -53,28 +53,26 @@ To push environment variables into a container it is neccessary to run the conta
 
 Environment variables in files `narra-master@.service` and `narra-worker@.service` have to be properly setup before deployment.
 
-#### Submit services
+#### Submit database services
 
 	fleetctl submit narra-mongo.service
 	fleetctl submit narra-redis.service
-	fleetctl submit narra-master@.service
-	fleetctl submit narra-worker@.service
+	fleetctl start narra-mongo
+	fleetctl start narra-redis
+
+#### Database connectors set up
+
+Before connectors (based on docker's ambassador pattern) deployment. Environment variables in files `narra-mongo-connector.service` and `narra-redis-connector.service` has to be set up.
+
+	fleetctl submit narra-mongo-connector.service
+	fleetctl submit narra-redis-connector.service
+	fleetctl start narra-mongo-connector
+	fleetctl start narra-redis-connector
 
 #### Start services
 
-	fleetctl start narra-mongo
-	fleetctl start narra-redis
+	fleetctl submit narra-master@.service
+	fleetctl submit narra-worker@.service
 	fleetctl start narra-master@1
 	fleetctl start narra-worker@1
 	fleetctl start narra-worker@2
-
-#### Check running services
-
-	fleetctl list-units
-	
-	UNIT			MACHINE				ACTIVE	SUB
-	narra-master@1.service	aaaf525d.../10.133.223.138	active	running
-	narra-mongo.service	aaaf525d.../10.133.223.138	active	running
-	narra-redis.service	aaaf525d.../10.133.223.138	active	running
-	narra-worker@1.service	9509fed1.../10.133.223.139	active	running
-	narra-worker@2.service	25d887a9.../10.133.223.136	active	running

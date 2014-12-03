@@ -1,0 +1,12 @@
+[Unit]
+Description=NARRA Redis Connector
+
+[Service]
+TimeoutStartSec=0
+ExecStartPre=-/usr/bin/docker kill narra-redis-connector
+ExecStartPre=-/usr/bin/docker rm narra-redis-connector
+ExecStartPre=/usr/bin/docker pull svendowideit/ambassador
+ExecStart=/usr/bin/docker run -d --name narra-redis-connector --expose 6379 -e REIDS_PORT_6379_TCP=tcp://<redis_server_ip>:6379 svendowideit/ambassador
+
+[X-Fleet]
+Global=true
