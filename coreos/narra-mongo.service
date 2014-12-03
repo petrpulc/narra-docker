@@ -1,14 +1,17 @@
 [Unit]
 Description=MongoDB server for NARRA instance
-After=docker.service
 Requires=docker.service
+Requires=narra-mongo-connector.service
+After=docker.service
+Before=narra-mongo-connector.service
 
 [Service]
 TimeoutStartSec=0
+EnvironmentFile=/etc/environment
 ExecStartPre=-/usr/bin/docker kill narra-mongo
 ExecStartPre=-/usr/bin/docker rm narra-mongo
 ExecStartPre=/usr/bin/docker pull mongo
-ExecStart=/usr/bin/docker run --name narra-mongo mongo
+ExecStart=/usr/bin/docker run --name narra-mongo -p ${COREOS_PRIVATE_IPV4}:27017:27017 mongo
 ExecStop=/usr/bin/docker stop narra-mongo
 
 [X-Fleet]

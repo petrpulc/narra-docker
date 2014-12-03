@@ -1,12 +1,24 @@
 [Unit]
 Description=NARRA MongoDB Connector
+Requires=etcd.service
+Requires=narra-mongo.service
+After=etcd.service
+After=narra-mongo.service
+BindsTo=narra-mongo.service
 
 [Service]
-TimeoutStartSec=0
-ExecStartPre=-/usr/bin/docker kill narra-mongo-connector
-ExecStartPre=-/usr/bin/docker rm narra-mongo-connector
-ExecStartPre=/usr/bin/docker pull svendowideit/ambassador
-ExecStart=/usr/bin/docker run -d --name narra-mongo-connector --expose 27017 -e MONGO_PORT_27017_TCP=tcp://<mongodb_server_ip>:27017 svendowideit/ambassador
+EnvironmentFile=/etc/environment
+ExecStart=/bin/bash -c '\
+  while true; do \
+    curl -f ${COREOS_PRIVATE_IPV4}:27017; \
+    if [ $? -eq 0 ]; then \
+      etcdctl set /narra/mongo \'${COREOS_PRIVATE_IPV4}:27017\' --ttl 30; \
+    else \
+      etcdctl rm /narra/mongo; \
+    fi; \
+    sleep 20; \
+  done'
+ExecStop=/usr/bin/etcdctl rm /narra/mongo
 
 [X-Fleet]
-Global=true
+X-ConditionMachineOf=narra-mongo.service

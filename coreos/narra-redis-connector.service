@@ -1,12 +1,24 @@
 [Unit]
 Description=NARRA Redis Connector
+Requires=etcd.service
+Requires=narra-redis.service
+After=etcd.service
+After=narra-redis.service
+BindsTo=narra-redis.service
 
 [Service]
-TimeoutStartSec=0
-ExecStartPre=-/usr/bin/docker kill narra-redis-connector
-ExecStartPre=-/usr/bin/docker rm narra-redis-connector
-ExecStartPre=/usr/bin/docker pull svendowideit/ambassador
-ExecStart=/usr/bin/docker run -d --name narra-redis-connector --expose 6379 -e REIDS_PORT_6379_TCP=tcp://<redis_server_ip>:6379 svendowideit/ambassador
+EnvironmentFile=/etc/environment
+ExecStart=/bin/bash -c '\
+  while true; do \
+    curl -f ${COREOS_PRIVATE_IPV4}:6379; \
+    if [ $? -eq 0 ]; then \
+      etcdctl set /narra/redis \'${COREOS_PRIVATE_IPV4}:6379\' --ttl 30; \
+    else \
+      etcdctl rm /narra/redis; \
+    fi; \
+    sleep 20; \
+  done'
+ExecStop=/usr/bin/etcdctl rm /narra/redis
 
 [X-Fleet]
-Global=true
+X-ConditionMachineOf=narra-redis.service
