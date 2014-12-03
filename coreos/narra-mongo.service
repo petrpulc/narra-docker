@@ -1,9 +1,7 @@
 [Unit]
 Description=MongoDB server for NARRA instance
 Requires=docker.service
-Requires=narra-mongo-connector.service
 After=docker.service
-Before=narra-mongo-connector.service
 
 [Service]
 TimeoutStartSec=0
@@ -12,7 +10,9 @@ ExecStartPre=-/usr/bin/docker kill narra-mongo
 ExecStartPre=-/usr/bin/docker rm narra-mongo
 ExecStartPre=/usr/bin/docker pull mongo
 ExecStart=/usr/bin/docker run --name narra-mongo -p ${COREOS_PRIVATE_IPV4}:27017:27017 mongo
+ExecStartPost=/usr/bin/etcdctl set /narra/mongo ${COREOS_PRIVATE_IPV4}
 ExecStop=/usr/bin/docker stop narra-mongo
+ExecStopPost=/usr/bin/etcdctl rm /narra/mongo
 
 [X-Fleet]
 MachineMetadata=type=database

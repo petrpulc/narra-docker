@@ -1,9 +1,7 @@
 [Unit]
 Description=Redis server for NARRA instance
 Requires=docker.service
-Requires=narra-redis-connector.service
 After=docker.service
-Before=narra-redis-connector.service
 
 [Service]
 TimeoutStartSec=0
@@ -12,7 +10,9 @@ ExecStartPre=-/usr/bin/docker kill narra-redis
 ExecStartPre=-/usr/bin/docker rm narra-redis
 ExecStartPre=/usr/bin/docker pull redis
 ExecStart=/usr/bin/docker run --name narra-redis -p ${COREOS_PRIVATE_IPV4}:6379:6379 redis
+ExecStartPost=/usr/bin/etcdctl set /narra/redis ${COREOS_PRIVATE_IPV4}
 ExecStop=/usr/bin/docker stop narra-redis
+ExecStartPost=/usr/bin/etcdctl rm /narra/redis
 
 [X-Fleet]
 MachineMetadata=type=database
