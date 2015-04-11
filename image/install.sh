@@ -1,6 +1,5 @@
 #!/bin/bash
 set -e
-source /build/buildconfig
 source /build/narra/buildconfig
 set -x
 
