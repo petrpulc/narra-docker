@@ -6,7 +6,7 @@ ENV HOME /root
 ENV RAILS_ENV production
 
 # Set narra build env
-RUN mkdir /build/narra
+RUN mkdir -p /build/narra
 ADD . /build/narra
 
 # Use baseimage-docker's init process.
